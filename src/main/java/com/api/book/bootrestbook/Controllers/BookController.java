@@ -20,12 +20,11 @@ public class BookController {
     //get all books
     @RequestMapping(value = "/books",method = RequestMethod.GET)
     //@ResponseBody
-    public ResponseEntity<List<Book>> getBook(){
+    public ResponseEntity<List<Book>> getBooks(){
         List<Book> list=bookService.getAllBooks();
         if(list.size()<=0){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-
         return ResponseEntity.of(Optional.of(list));
     }
 
@@ -48,7 +47,8 @@ public class BookController {
         try {
             b=this.bookService.addBook(book);
             System.out.println(b);
-            return ResponseEntity.of(Optional.of(book));
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+            //return ResponseEntity.of(Optional.of(book));
         }catch (Exception ex){
             ex.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
